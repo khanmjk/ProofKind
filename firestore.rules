@@ -1,0 +1,45 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function publicProfileIsPublished(slug) {
+      return exists(/databases/$(database)/documents/publicProfiles/$(slug))
+        && get(/databases/$(database)/documents/publicProfiles/$(slug)).data.publishState == "published"
+        && get(/databases/$(database)/documents/publicProfiles/$(slug)).data.publicEndpointEnabled == true;
+    }
+
+    match /tenants/{tenantId}/{document=**} {
+      allow read, write: if false;
+    }
+
+    match /publicProfiles/{slug} {
+      allow read: if resource.data.publishState == "published"
+        && resource.data.publicEndpointEnabled == true;
+      allow write: if false;
+
+      match /publicFitSessions/{sessionId} {
+        allow read, write: if false;
+      }
+
+      match /publicClaims/{claimId} {
+        allow read: if publicProfileIsPublished(slug);
+        allow write: if false;
+      }
+
+      match /publicSections/{sectionId} {
+        allow read: if publicProfileIsPublished(slug);
+        allow write: if false;
+      }
+
+      match /publicArtifactSummaries/{artifactId} {
+        allow read: if publicProfileIsPublished(slug);
+        allow write: if false;
+      }
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
+
