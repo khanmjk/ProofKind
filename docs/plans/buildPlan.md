@@ -113,7 +113,7 @@ These defaults should be challenged only if implementation evidence shows they a
 | Hosting target | Firebase App Hosting |
 | Auth | Firebase Authentication |
 | Database | Cloud Firestore |
-| AI orchestration | Genkit |
+| AI call path | Server-side Gemini REST adapter for Phase 1; Genkit remains a later orchestration option when tool routing is needed |
 | Model | Gemini Flash-class model for public fit advisor |
 | Styling | Tailwind CSS or equivalent low-friction app styling |
 | Tests | Vitest for unit tests, Playwright for public flow checks |
@@ -126,7 +126,7 @@ Useful official references:
 - Firebase App Hosting: <https://firebase.google.com/docs/app-hosting>
 - Firebase Authentication: <https://firebase.google.com/docs/auth>
 - Cloud Firestore: <https://firebase.google.com/docs/firestore>
-- Genkit: <https://genkit.dev/>
+- Genkit, Phase 2+ orchestration option: <https://genkit.dev/>
 - Gemini structured output: <https://firebase.google.com/docs/ai-logic/generate-structured-output>
 - Firebase App Check: <https://firebase.google.com/docs/app-check>
 - Firestore Vector Search, Phase 2+: <https://firebase.google.com/docs/firestore/vector-search>
