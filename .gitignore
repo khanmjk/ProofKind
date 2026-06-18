@@ -18,6 +18,7 @@ playwright-report/
 .env
 .env.*
 !.env.example
+.proofkind/
 
 # logs
 npm-debug.log*

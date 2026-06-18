@@ -38,6 +38,8 @@ ProofKind is valuable if it can turn scattered professional evidence into a livi
 The MVP must demonstrate:
 
 - ingestion of owner-approved professional source folders
+- ingestion of owner-approved Google Drive API selected folders
+- ingestion of owner-approved Blogger feeds
 - parsing of common document formats
 - classification of source type, sensitivity, and public-use risk
 - chunking and lineage preservation
@@ -67,6 +69,8 @@ Manual content seeds are acceptable only as test fixtures. They are not the Phas
 Phase 1 is complete when:
 
 - An approved local or mounted Google Drive folder can be ingested recursively.
+- An approved Google Drive folder ID can be inventoried recursively and fetched/exported through the Drive API.
+- An approved Blogger blog URL can be ingested through the public Blogger JSON feed.
 - Supported files create `sourceItems`, `sourceVersions`, and `sourceChunks` under the tenant.
 - Source records include parser, content hash, document family, sensitivity, visibility, and lineage metadata.
 - Google Workspace pointer files are detected and recorded, with a clear note that full content requires Drive API export.
@@ -86,8 +90,7 @@ Phase 1 is complete when:
 | App framework | Next.js with TypeScript |
 | Database | Cloud Firestore |
 | Owner execution path | CLI scripts first, web owner console later |
-| Initial connector | Local/mounted folder ingestion, including Google Drive Desktop folders |
-| Later connector | Google Drive API export connector using OAuth and selected roots |
+| Initial connectors | Local/mounted folder, Google Drive API selected-folder export, Blogger public feed |
 | Parsing | Lightweight deterministic parsers for text, HTML, PDF, DOCX, PPTX, XLSX, Google Workspace pointers |
 | AI synthesis | Server-side Gemini REST adapter with deterministic fallback |
 | Public profile | Existing `/p/[slug]` route over `publicProfiles/{slug}` |
@@ -103,6 +106,18 @@ npm run ingest:local -- --root <approved-folder>
   -> parse text
   -> classify source family/sensitivity/visibility
   -> chunk text
+  -> write tenant source records
+
+npm run ingest:drive -- --folder-id <approved-drive-folder-id>
+  -> recursively inventory only that Drive folder
+  -> export Google Docs/Sheets/Slides or download binary files
+  -> parse/classify/chunk
+  -> write tenant source records
+
+npm run ingest:blogger -- --blog-url <approved-blogger-url>
+  -> read Blogger JSON feed
+  -> parse post bodies and labels
+  -> chunk as public-footprint evidence
   -> write tenant source records
 
 npm run synthesize:profile -- --tenant founder-mjk --slug mjk
@@ -126,13 +141,17 @@ Tasks:
 - Add source root, item, version, and chunk types.
 - Add corpus repository methods for tenant-scoped writes and reads.
 - Add recursive local folder discovery with an explicit root.
+- Add Google Drive selected-folder recursive inventory with an explicit `--folder-id`.
+- Add Blogger feed ingestion with an explicit `--blog-url`.
 - Add max file count and max file size controls.
 - Skip hidden/system folders by default.
 - Detect Google Workspace pointer files from Drive Desktop.
 
 Acceptance criteria:
 
-- Ingestion cannot run without an explicit `--root`.
+- Local ingestion cannot run without an explicit `--root`.
+- Drive ingestion cannot run without an explicit `--folder-id`.
+- Blogger ingestion cannot run without an explicit `--blog-url` or test fixture file.
 - Ingestion does not crawl the whole Drive implicitly.
 - Every record carries `tenantId`.
 - Source paths remain private tenant data.
@@ -223,14 +242,16 @@ Acceptance criteria:
 ## Current Known Limitations
 
 - Google Drive Desktop `.gdoc`, `.gsheet`, and `.gslides` files are pointer files; full content requires Drive API export.
-- The Phase 1 CLI can ingest local/mounted binary files now; the Drive API OAuth connector is the next connector-specific step.
+- The Drive API connector requires Google OAuth credentials and uses readonly Drive scope.
+- Blogger feed ingestion supports public Blogger JSON feeds without OAuth.
 - No embeddings/vector search are required for the first generation pass.
 - The deterministic fallback proves the data path, not final content quality.
 - Real profile quality requires carefully selected source roots and review of generated output.
 
 ## Immediate User Inputs Needed
 
-- The approved Google Drive folder path or folder set to ingest first.
+- The approved Google Drive folder path or Drive folder ID to ingest first.
+- The approved Blogger blog URL to ingest first.
 - Whether generated output may be published automatically for local MVP testing with `--publish`, or should remain draft until inspected.
 - Gemini API key placement in `.env.local` when ready.
 - Booking URL and interest-capture URL for the public page.
@@ -247,8 +268,8 @@ Context:
 - The founder has rejected the previous hand-curated public-profile-first MVP.
 - The new Phase 1 goal is to prove ingestion-to-profile-generation: approved source folders -> parsing/classification/chunking -> AI synthesis -> generated private claims -> owner-triggered public materialization -> public profile and fit advisor.
 - Multi-tenancy and public/private separation must remain from day one.
-- The first ingestion path is local/mounted Google Drive folder ingestion, not broad Drive OAuth.
-- Google Drive API export connector comes next because Drive Desktop `.gdoc` files are only pointers.
+- The first ingestion paths are local/mounted folder ingestion, selected-root Google Drive API export, and Blogger feed ingestion.
+- Drive API ingestion requires an explicit folder ID and must not perform broad account-wide sync.
 
 Review for:
 1. Any architecture mistake that would make later Google Drive/Blogger/GitHub connectors hard.

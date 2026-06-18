@@ -432,6 +432,8 @@ Keep the initial budget near `$20-$30/month` by enforcing:
 - `TenantScopedRepository`
 - Firestore tenant-scoped schema
 - local/mounted-folder ingestion CLI for owner-approved roots
+- Google Drive API selected-root export connector
+- Blogger public feed connector
 - source root, item, version, and chunk records
 - parser/classifier/chunker for common professional documents
 - sensitivity and public-use classification
@@ -446,12 +448,10 @@ Keep the initial budget near `$20-$30/month` by enforcing:
 - spend cap and public endpoint kill switch
 - region/environment decision
 
-### Phase 2: Google Drive API Export Connector And Owner Workbench
+### Phase 2: Owner Workbench And Retrieval
 
 - Cloud Storage buckets
 - tenant-prefixed storage layout
-- Google Drive OAuth for selected roots
-- Google Workspace export for Docs, Sheets, and Slides
 - refresh cursors and changed-file detection
 - embedding model/dimension/distance/normalization decision
 - Gemini embeddings
@@ -474,7 +474,7 @@ Keep the initial budget near `$20-$30/month` by enforcing:
 - connector registry
 - tenant connector installs
 - encrypted connector credential storage
-- Blogger and LinkedIn export/import as needed
+- LinkedIn export/import and additional connectors as needed
 - Cloud Tasks queue design
 - Cloud Run service worker pattern
 - ingestion idempotency ledger with work identity and processing version

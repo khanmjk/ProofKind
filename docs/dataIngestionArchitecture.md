@@ -18,6 +18,20 @@ ProofKind must build a living professional evidence base from the owner's real f
 - public web research about companies, products, articles, and work context
 - future updates as data changes
 
+## 2026-06-18 MVP Connector Decision
+
+The founder's MVP knowledge base depends on two primary sources:
+
+- Google Drive documents
+- Blogger blog posts
+
+Phase 1 therefore includes connector support for:
+
+- **Google Drive API selected-folder export**, requiring an explicit approved folder ID and Google OAuth readonly Drive scope.
+- **Blogger public feed ingestion**, requiring an explicit approved blog URL.
+
+Do not run broad Drive account sync for the founder MVP. Every ingestion run must start from an owner-approved folder ID, mounted folder path, feed URL, or test fixture.
+
 The ingestion system must do more than "upload files into RAG." It must discover, classify, parse, version, refresh, extract, reconcile, and preserve evidence lineage.
 
 ## Core Decision

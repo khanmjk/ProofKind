@@ -1,0 +1,48 @@
+{
+  "feed": {
+    "openSearch$totalResults": {
+      "$t": "1"
+    },
+    "entry": [
+      {
+        "id": {
+          "$t": "tag:blogger.com,1999:blog-123.post-456"
+        },
+        "published": {
+          "$t": "2020-01-02T03:04:05.000Z"
+        },
+        "updated": {
+          "$t": "2020-01-03T03:04:05.000Z"
+        },
+        "title": {
+          "$t": "AI Product Thinking"
+        },
+        "content": {
+          "$t": "<p>This post explains how AI product teams should connect discovery, architecture, and evidence.</p>"
+        },
+        "category": [
+          {
+            "term": "AI"
+          },
+          {
+            "term": "Product"
+          }
+        ],
+        "author": [
+          {
+            "name": {
+              "$t": "Muhammad Khan"
+            }
+          }
+        ],
+        "link": [
+          {
+            "rel": "alternate",
+            "type": "text/html",
+            "href": "https://example.blogspot.com/2020/01/ai-product-thinking.html"
+          }
+        ]
+      }
+    ]
+  }
+}

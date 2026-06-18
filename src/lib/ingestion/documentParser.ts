@@ -48,7 +48,7 @@ function normalizeText(text: string) {
     .trim();
 }
 
-function stripHtml(value: string) {
+export function htmlToText(value: string) {
   return normalizeText(
     value
       .replace(/<script[\s\S]*?<\/script>/gi, " ")
@@ -85,8 +85,8 @@ function collectPrimitiveText(value: unknown, output: string[] = []) {
   return output;
 }
 
-async function extractZipXml(filePath: string, matcher: (name: string) => boolean) {
-  const zip = await JSZip.loadAsync(await readFile(filePath));
+async function extractZipXml(data: Buffer, matcher: (name: string) => boolean) {
+  const zip = await JSZip.loadAsync(data);
   const parts: string[] = [];
 
   for (const entry of Object.values(zip.files).filter((file) => !file.dir && matcher(file.name))) {
@@ -98,8 +98,8 @@ async function extractZipXml(filePath: string, matcher: (name: string) => boolea
   return normalizeText(parts.join("\n"));
 }
 
-async function parsePdf(filePath: string) {
-  const parser = new PDFParse({ data: await readFile(filePath) });
+async function parsePdf(data: Buffer) {
+  const parser = new PDFParse({ data });
   const result = await parser.getText();
   await parser.destroy();
   return normalizeText(result.text);
@@ -124,9 +124,13 @@ function parseGoogleWorkspacePointer(raw: string, filePath: string) {
   }
 }
 
-export async function parseDocument(filePath: string): Promise<ParsedDocument> {
-  const extension = extname(filePath).toLowerCase();
-  const raw = await readFile(filePath);
+export async function parseDocumentBuffer(input: {
+  fileName: string;
+  data: Buffer;
+  mimeType?: string;
+}): Promise<ParsedDocument> {
+  const extension = extname(input.fileName).toLowerCase();
+  const raw = input.data;
 
   if ([".txt", ".text", ".md", ".csv", ".rtf", ".xml"].includes(extension)) {
     return {
@@ -139,7 +143,7 @@ export async function parseDocument(filePath: string): Promise<ParsedDocument> {
 
   if ([".html", ".htm"].includes(extension)) {
     return {
-      text: stripHtml(raw.toString("utf8")),
+      text: htmlToText(raw.toString("utf8")),
       mimeType: "text/html",
       parser: "html-stripper",
       parserVersion: "1"
@@ -157,7 +161,7 @@ export async function parseDocument(filePath: string): Promise<ParsedDocument> {
 
   if ([".gdoc", ".gsheet", ".gslides"].includes(extension)) {
     return {
-      text: parseGoogleWorkspacePointer(raw.toString("utf8"), filePath),
+      text: parseGoogleWorkspacePointer(raw.toString("utf8"), input.fileName),
       mimeType: "application/vnd.google-apps.shortcut",
       parser: "google-workspace-pointer",
       parserVersion: "1"
@@ -166,7 +170,7 @@ export async function parseDocument(filePath: string): Promise<ParsedDocument> {
 
   if (extension === ".pdf") {
     return {
-      text: await parsePdf(filePath),
+      text: await parsePdf(raw),
       mimeType: "application/pdf",
       parser: "pdf-parse",
       parserVersion: "2"
@@ -175,7 +179,7 @@ export async function parseDocument(filePath: string): Promise<ParsedDocument> {
 
   if (extension === ".docx") {
     return {
-      text: await extractZipXml(filePath, (name) => /^word\/(document|header\d*|footer\d*)\.xml$/.test(name)),
+      text: await extractZipXml(raw, (name) => /^word\/(document|header\d*|footer\d*)\.xml$/.test(name)),
       mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
       parser: "office-openxml",
       parserVersion: "1"
@@ -184,7 +188,7 @@ export async function parseDocument(filePath: string): Promise<ParsedDocument> {
 
   if (extension === ".pptx") {
     return {
-      text: await extractZipXml(filePath, (name) => /^ppt\/(slides|notesSlides)\/.*\.xml$/.test(name)),
+      text: await extractZipXml(raw, (name) => /^ppt\/(slides|notesSlides)\/.*\.xml$/.test(name)),
       mimeType: "application/vnd.openxmlformats-officedocument.presentationml.presentation",
       parser: "office-openxml",
       parserVersion: "1"
@@ -193,7 +197,7 @@ export async function parseDocument(filePath: string): Promise<ParsedDocument> {
 
   if (extension === ".xlsx") {
     return {
-      text: await extractZipXml(filePath, (name) => /^xl\/(worksheets|sharedStrings).*\.xml$/.test(name)),
+      text: await extractZipXml(raw, (name) => /^xl\/(worksheets|sharedStrings).*\.xml$/.test(name)),
       mimeType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       parser: "office-openxml",
       parserVersion: "1"
@@ -201,4 +205,11 @@ export async function parseDocument(filePath: string): Promise<ParsedDocument> {
   }
 
   throw new Error(`Unsupported document type: ${extension}`);
+}
+
+export async function parseDocument(filePath: string): Promise<ParsedDocument> {
+  return parseDocumentBuffer({
+    fileName: filePath,
+    data: await readFile(filePath)
+  });
 }

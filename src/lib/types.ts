@@ -44,7 +44,7 @@ export type SourceItem = {
   tenantId: string;
   connectorInstallId: string;
   connectorId: string;
-  sourceType: "file" | "google_workspace_pointer";
+  sourceType: "file" | "google_workspace_pointer" | "google_drive_file" | "blogger_post";
   externalId: string;
   externalUrl: string;
   title: string;

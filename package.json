@@ -12,7 +12,11 @@
     "test:watch": "vitest",
     "test:rules": "PATH=/opt/homebrew/opt/openjdk/bin:$PATH firebase emulators:exec --only firestore \"vitest run --config vitest.rules.config.ts\"",
     "test:e2e": "playwright test",
+    "google:auth-url": "tsx scripts/google-auth-url.ts",
+    "google:exchange-code": "tsx scripts/google-exchange-code.ts",
     "ingest:local": "tsx scripts/ingest-local-corpus.ts",
+    "ingest:drive": "tsx scripts/ingest-google-drive.ts",
+    "ingest:blogger": "tsx scripts/ingest-blogger-feed.ts",
     "synthesize:profile": "tsx scripts/generate-profile-from-corpus.ts"
   },
   "dependencies": {
