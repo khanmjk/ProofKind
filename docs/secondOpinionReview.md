@@ -5,6 +5,10 @@ Date: 2026-06-16
 Source: Claude second-opinion review shared by the owner  
 Related: [Pre-Build Architecture Review](./preBuildArchitectureReview.md), [Technical Architecture](./technicalArchitecturePlan.md), [Data Ingestion Architecture](./dataIngestionArchitecture.md), [Connector And Multi-Tenant Architecture](./connectorMultiTenantArchitecture.md)
 
+## 2026-06-18 Scope Note
+
+This review is retained as historical adversarial input. Its recommendation to build a hand-approved public profile slice before ingestion is now superseded by the founder's explicit Phase 1 priority: prove ingestion-to-profile-generation from real source evidence. The multi-tenant spine, public/private boundary, allow-list public materialization, and leak-risk warnings still stand.
+
 ## Executive Verdict
 
 Claude's final call was:

@@ -36,7 +36,7 @@ private ingestion + owner synthesis
   -> public profile and visitor fit advisor
 ```
 
-The build order is deliberately narrower: validate a tenant-safe public profile and visitor fit advisor first, using hand-approved public claims, then add private corpus ingestion and connector automation.
+The build order has been updated on 2026-06-18: Phase 1 now proves the ingestion-to-profile-generation engine. The public profile and visitor fit advisor remain important, but they are downstream consumers of generated, evidence-backed profile material rather than the initial source of truth.
 
 ## Locked Stack
 
@@ -424,35 +424,35 @@ Keep the initial budget near `$20-$30/month` by enforcing:
 
 ## Build Phases
 
-### Phase 1: Tenant-Safe Public Slice
+### Phase 1: AI-Maintained Profile Engine
 
 - Firebase project
-- Next.js app on Firebase App Hosting
-- Firebase Auth
+- Next.js app foundation
 - tenant registry and membership model
 - `TenantScopedRepository`
 - Firestore tenant-scoped schema
-- `publicProfiles/{slug}` materialization model
+- local/mounted-folder ingestion CLI for owner-approved roots
+- source root, item, version, and chunk records
+- parser/classifier/chunker for common professional documents
+- sensitivity and public-use classification
+- generated private claims with source lineage
+- profile synthesis from tenant corpus using Gemini or deterministic fallback
+- owner-triggered public materialization into `publicProfiles/{slug}`
 - public allow-list serializer
-- Genkit setup
-- minimal policy-aware tool broker for owner/private and public/visitor modes
-- 30-60 hand-approved public claims
 - public profile page
-- visitor fit advisor over approved public claims only
+- visitor fit advisor over materialized public claims only
 - public/private retrieval boundary tests
 - private-vs-public leak eval
 - spend cap and public endpoint kill switch
 - region/environment decision
 
-### Phase 2: Manual Private Corpus And Owner Workbench
+### Phase 2: Google Drive API Export Connector And Owner Workbench
 
 - Cloud Storage buckets
 - tenant-prefixed storage layout
-- manual upload/import flow
-- source registry
-- source versioning
-- open-source parsing
-- chunk storage
+- Google Drive OAuth for selected roots
+- Google Workspace export for Docs, Sheets, and Slides
+- refresh cursors and changed-file detection
 - embedding model/dimension/distance/normalization decision
 - Gemini embeddings
 - Firestore Vector Search
@@ -469,13 +469,11 @@ Keep the initial budget near `$20-$30/month` by enforcing:
 - approval UI
 - public materialization serializer from approved claims
 
-### Phase 4: Connector Ingestion Spine
+### Phase 4: Broader Connector Ingestion Spine
 
 - connector registry
 - tenant connector installs
 - encrypted connector credential storage
-- Google Drive connector install in founder/testing mode
-- Google Drive selected-root inventory
 - Blogger and LinkedIn export/import as needed
 - Cloud Tasks queue design
 - Cloud Run service worker pattern
@@ -512,9 +510,9 @@ The authenticated owner can ask questions across their full corpus and draft kno
 
 The anonymous visitor agent can retrieve only approved public profile data.
 
-### ADR-005: Connector Runtime Before Repeated Integrations
+### ADR-005: Connector Runtime Before Repeated Third-Party Integrations
 
-When connectors are built in Phase 4+, new source systems must be added through connector adapters and tenant connector installs. This is not a Phase 1 requirement for the hand-approved public profile slice.
+Phase 1 uses a local/mounted-folder ingestion adapter to prove the normalized source model. New third-party systems beyond that should be added through connector adapters and tenant connector installs rather than one-off ingestion code.
 
 ### ADR-006: MCP Is Adapter, Not Security Boundary
 

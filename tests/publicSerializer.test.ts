@@ -35,17 +35,16 @@ describe("serializePublicClaim", () => {
       privateClaim,
       themeTags: ["privacy"],
       capabilityTags: ["tenant isolation"],
-      publicEvidenceSummary: "Owner-curated Phase 1 proof point.",
+      publicEvidenceSummary: "Generated from ingested professional evidence.",
       approvedByUid: "owner",
       sortOrder: 1,
       now: "2026-06-17T00:00:00.000Z"
     });
 
     expect(publicClaim.approvedPublicText).toBe(privateClaim.claimText);
-    expect(publicClaim.publicEvidenceSummary).toBe("Owner-curated Phase 1 proof point.");
+    expect(publicClaim.publicEvidenceSummary).toBe("Generated from ingested professional evidence.");
     expect(JSON.stringify(publicClaim)).not.toContain("source-secret");
     expect(JSON.stringify(publicClaim)).not.toContain("hash-secret");
     expect(JSON.stringify(publicClaim)).not.toContain("Private note");
   });
 });
-

@@ -10,7 +10,7 @@ ProofKind must be multi-tenant and connector-extensible from day one.
 
 The platform should not be a one-off app hardcoded for one person's Google Drive. The first implementation can prioritize the founder's data sources, but the architecture must allow future users to connect different systems such as GitHub, Canva, Trello, Notion, Dropbox, Google Drive, Blogger, YouTube, or manual exports without rebuilding the core product.
 
-This is an architecture boundary, not a mandate to build the full connector runtime before the first public profile slice. Phase 1 implements the tenant-safety primitives; the full connector ingestion spine is built after the public profile and visitor fit-advisor validation slice exists.
+This is an architecture boundary, not a mandate to build every connector before the founder MVP. Phase 1 implements the tenant-safety primitives and a local/mounted-folder ingestion adapter to prove the normalized source model. The fuller OAuth/API connector spine follows once the ingestion-to-profile-generation loop is working.
 
 The architectural pattern is:
 

@@ -1,6 +1,5 @@
 import { Timestamp } from "firebase-admin/firestore";
 import { getAdminDb } from "@/lib/firebase/admin";
-import { localSeedProfile } from "@/data/publicProfileSeed";
 import type { PublicClaim, PublicFitSession, PublicProfile, PublicSection } from "@/lib/types";
 
 type FirestoreTimestampLike = Timestamp | string | undefined;
@@ -27,7 +26,7 @@ export class PublicProfileRepository {
     const profileSnap = await profileRef.get();
 
     if (!profileSnap.exists) {
-      return process.env.NODE_ENV === "production" ? null : localSeedProfile;
+      return null;
     }
 
     const profileData = withDates(profileSnap.data() ?? {});
@@ -71,4 +70,3 @@ export class PublicProfileRepository {
       .set(session);
   }
 }
-

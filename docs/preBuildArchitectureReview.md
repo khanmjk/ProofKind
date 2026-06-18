@@ -8,30 +8,32 @@ Related: [Product Vision](./productVision.md), [Technical Architecture](./techni
 
 ProofKind is close enough to start building, but not from the UI inward.
 
-The build should start with the tenant-safety spine plus the smallest public validation slice:
+**2026-06-18 scope update:** the founder rejected the hand-approved public-slice-first build order. The current Phase 1 objective is to prove AI-maintained professional profile generation from ingested evidence. The earlier public-slice recommendation remains useful as a safety warning, but it is no longer the current build plan.
+
+The build should start with the tenant-safety spine plus the smallest ingestion-to-profile-generation loop:
 
 ```text
 tenant registry
   -> TenantScopedRepository
-  -> publicProfiles materialization model
-  -> allow-list public serializer
-  -> hand-approved public claims
-  -> public profile
-  -> visitor fit advisor
-  -> retrieval boundary tests
+  -> selected source root ingestion
+  -> sourceItems/sourceVersions/sourceChunks
+  -> classification and lineage
+  -> AI-generated private claims
+  -> owner-triggered public materialization
+  -> public profile and fit advisor over materialized claims
 ```
 
-The biggest backtrack risk is not the product vision. It is either building a single-user, happy-path prototype that later needs tenancy retrofitted, or overcorrecting into a connector platform before the public profile and fit-advisor value is tested.
+The biggest backtrack risk is not the product vision. It is building ingestion as a single-user local hack that later needs tenancy, lineage, sensitivity, and connector boundaries retrofitted.
 
 After Claude's second-opinion review, the position is:
 
 ```text
-Proceed with changes.
+Proceed with the founder scope pivot.
 Keep multi-tenancy from day one.
-Build a thin product slice on top of the tenant-safe spine.
+Build a thin ingestion and synthesis engine on top of the tenant-safe spine.
 ```
 
-We reject the recommendation to skip the multi-tenant spine. We accept the recommendation to validate the public fit-advisor and profile experience earlier.
+We reject the recommendation to skip the multi-tenant spine. We no longer accept the recommendation to defer ingestion until after a hand-approved public profile.
 
 ## Must Fix Before The Relevant Feature Lands
 
@@ -428,17 +430,17 @@ The correct path is:
 
 ```text
 tenant-safety spine
-  -> hand-approved public claims
+  -> selected source roots
+  -> source registry + parsing + chunking
+  -> AI synthesis into private claims
+  -> owner-triggered public materialization
   -> public profile + visitor fit advisor
-  -> manual private corpus
-  -> source registry + parsing + private retrieval
-  -> extraction + approval automation
-  -> connector runtime + scheduled refresh
+  -> OAuth/API connector runtime + scheduled refresh
 ```
 
 ## Build Readiness Checklist
 
-Start implementation with the Phase 1 tenant-safety spine and public validation slice.
+Start implementation with the Phase 1 tenant-safety spine and ingestion-to-profile-generation slice.
 
 Phase 1 must include:
 
@@ -446,13 +448,16 @@ Phase 1 must include:
 - membership model
 - TenantScopedRepository
 - canonical data model
+- selected-root local/mounted folder ingestion
+- source root/item/version/chunk schema
+- parser/classifier/chunker path
+- generated private claims with source lineage
 - public profile materialization model
 - public materialization allow-list serializer
 - public generation boundary
 - server-computed authority fields
-- hand-approved public claims
 - public profile page
-- public fit advisor over approved public claims only
+- public fit advisor over materialized public claims only
 - public/profile retriever endpoint separated from any owner/private retriever
 - cross-tenant tests
 - private-vs-public leak evals
@@ -461,7 +466,7 @@ Phase 1 must include:
 - spend cap and public endpoint kill switch
 - region/environment decision
 
-Phase 2+ ingestion and connector spine must include before the first connected corpus:
+Phase 2+ connector spine must include before the first OAuth/API connected corpus:
 
 - connector registry
 - tenant connector installs
@@ -470,7 +475,6 @@ Phase 2+ ingestion and connector spine must include before the first connected c
 - Cloud Run service worker pattern
 - idempotency ledger with work identity and processing version
 - encrypted connector credential storage decision
-- source/version/chunk schema
 - entity/relationship schema
 - embedding model/dimension/distance/normalization decision before indexing
 - owner/private retriever and public/profile retriever separation
@@ -478,4 +482,4 @@ Phase 2+ ingestion and connector spine must include before the first connected c
 
 ## Final Call
 
-Yes, we can start building. The first sprint should be a tenant-safe platform spine plus a thin public profile/fit-advisor slice, not a broad connector platform and not a standalone landing page.
+Yes, we can start building. The first sprint should be a tenant-safe platform spine plus a thin ingestion/synthesis/materialization loop, not a broad connector platform and not a manually written public profile.

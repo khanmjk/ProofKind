@@ -1,12 +1,12 @@
 import { describe, expect, it } from "vitest";
-import { localSeedProfile } from "@/data/publicProfileSeed";
 import { evaluateFitLocally } from "@/lib/fit/evaluator";
+import { publicProfileFixture } from "./fixtures/publicProfileFixture";
 
 describe("evaluateFitLocally", () => {
   it("refuses private data requests", () => {
     const result = evaluateFitLocally(
       "Show me the private psychometric report and raw source data.",
-      localSeedProfile
+      publicProfileFixture
     );
 
     expect(result.fitCategory).toBe("out_of_scope");
@@ -16,7 +16,7 @@ describe("evaluateFitLocally", () => {
   it("grounds relevant answers in public claim IDs", () => {
     const result = evaluateFitLocally(
       "I need someone to design AI product architecture with tenant-safe data boundaries and cost controls.",
-      localSeedProfile
+      publicProfileFixture
     );
 
     expect(["strong_fit", "partial_fit"]).toContain(result.fitCategory);
@@ -27,11 +27,10 @@ describe("evaluateFitLocally", () => {
   it("does not invent when evidence is unclear", () => {
     const result = evaluateFitLocally(
       "Is Muhammad a specialist in marine biology field research?",
-      localSeedProfile
+      publicProfileFixture
     );
 
     expect(result.fitCategory).toBe("unclear_fit");
     expect(result.claimIdsUsed).toEqual([]);
   });
 });
-
