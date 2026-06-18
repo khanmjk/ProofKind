@@ -16,11 +16,13 @@ The v1 goal is your own profile: help recruiters, hiring managers, clients, foun
 ## Core Experience
 
 - **Owner agent:** runs the setup conversationally from start to finish: source discovery, source map confirmation, ingestion progress, synthesis, gap interview, profile generation, approval, and publishing.
+- **Chat-first identity studio:** the owner experience is a conversation-led workspace with generated artifacts beside the chat. The AI and owner co-create the profile, including copy, structure, visual direction, and interactive page previews.
 - **AI-led discovery:** user provides access and starting points such as Drive folders, LinkedIn export, GitHub, YouTube, Blogger, and work samples; the AI inventories sources, extracts companies/products/projects from the corpus, researches public context, and asks for confirmation.
 - **Evidence model:** the AI creates reviewable entities and relationships such as sources, roles, companies, products, projects, artifacts, skills, themes, outcomes, claims, and narratives.
 - **Gap-driven interview:** the AI asks targeted questions only where the corpus lacks context, contains ambiguity, or needs lived experience: motivations, judgment calls, impact, lessons, leadership, conflict, and personal operating style.
 - **AI-led positioning:** the AI infers themes and market positioning heavily, then asks the owner to approve, correct, or enrich them.
 - **Approval-gated publishing:** every public claim, theme, artifact, private-supported label, and visitor-answer policy must be approved before use.
+- **Generated profile experiences:** ProofKind should generate sample public profile UIs and interactive previews for the owner to review. Once approved, the public profile is published through a controlled renderer using approved public data.
 - **Owner private workbench:** the authenticated owner can chat with AI across their full corpus, including private sources, public sources, draft claims, approved claims, rejected claims, source metadata, and interview answers.
 - **Living knowledge base:** connected sources refresh over time, changed data creates draft updates, and public profile changes remain approval-gated.
 - **Professional memory:** the private system can learn from journals, reflection notes, performance reviews, psychometric reports, goals, feedback, and decision history to build a deeper owner model.
@@ -30,7 +32,7 @@ The v1 goal is your own profile: help recruiters, hiring managers, clients, foun
 
 ## Public Profile
 
-- Visitors can browse a generated profile with narrative, themes, work evidence, capabilities, selected artifacts, and credibility signals.
+- Visitors can browse an owner-approved generated profile experience with narrative, themes, work evidence, capabilities, selected artifacts, credibility signals, and interaction design shaped by the AI/owner collaboration.
 - Visitors can start an anonymous fit session by describing their role, project, company, or problem.
 - The public AI acts as a **candid fit advisor**: strong fit, partial fit, unclear fit, or likely mismatch.
 - The public AI can use only owner-approved public claims, approved public profile sections, approved artifact summaries, and approved private-supported statements.

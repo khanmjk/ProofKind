@@ -78,6 +78,7 @@ npm run test:e2e
 - [Product Vision](docs/productVision.md)
 - [Technical Architecture Plan](docs/technicalArchitecturePlan.md)
 - [Data Ingestion Architecture](docs/dataIngestionArchitecture.md)
+- [Owner Experience And Profile Generation](docs/ownerExperienceAndProfileGeneration.md)
 - [Canonical Data Model](docs/canonicalDataModel.md)
 - [Pre-Build Architecture Review](docs/preBuildArchitectureReview.md)
 - [Build Implementation Plan](docs/plans/buildPlan.md)

@@ -12,6 +12,7 @@ Related docs:
 - [Connector And Multi-Tenant Architecture](../connectorMultiTenantArchitecture.md)
 - [Canonical Data Model](../canonicalDataModel.md)
 - [Pre-Build Architecture Review](../preBuildArchitectureReview.md)
+- [Owner Experience And Profile Generation](../ownerExperienceAndProfileGeneration.md)
 
 ## Scope Pivot
 
@@ -44,8 +45,10 @@ The MVP must demonstrate:
 - classification of source type, sensitivity, and public-use risk
 - chunking and lineage preservation
 - AI generation of profile sections and public-safe claims
+- AI generation of interactive profile concepts and structured public page designs
 - generated claims linked back to source versions/chunks
 - owner-triggered publication into a separate public profile surface
+- owner approval of the generated profile experience before publication
 - public fit advisor constrained to materialized public claims only
 
 Manual content seeds are acceptable only as test fixtures. They are not the Phase 1 product path.
@@ -75,6 +78,8 @@ Phase 1 is complete when:
 - Source records include parser, content hash, document family, sensitivity, visibility, and lineage metadata.
 - Google Workspace pointer files are detected and recorded, with a clear note that full content requires Drive API export.
 - The profile generator reads tenant chunks and produces profile sections plus evidence-backed claims.
+- The owner workspace supports chat-first iteration over generated profile content and design artifacts.
+- Generated profile previews can be reviewed before publication.
 - Generated claims include source version IDs and chunk content hashes where available.
 - Generated private claims are stored under `tenants/{tenantId}/claims`.
 - A user-triggered publish command materializes generated profile data into `publicProfiles/{slug}`.
@@ -94,6 +99,8 @@ Phase 1 is complete when:
 | Parsing | Lightweight deterministic parsers for text, HTML, PDF, DOCX, PPTX, XLSX, Google Workspace pointers |
 | AI synthesis | Server-side Gemini REST adapter with deterministic fallback |
 | Public profile | Existing `/p/[slug]` route over `publicProfiles/{slug}` |
+| Owner UX direction | Chat-first workspace with generated artifacts and interactive profile previews |
+| Public page generation | Structured renderer for approved profile experience; sandboxed HTML preview for iteration |
 | Fit advisor | Existing public-only fit advisor over approved public claims |
 | Tests | Vitest, Firestore emulator rules tests, Playwright smoke tests |
 | Hosting target | Firebase App Hosting once billing is linked |
@@ -192,6 +199,13 @@ Tasks:
   - public profile sections
   - evidence-backed claims
   - missing-context questions
+- Generate profile experience options:
+  - audience
+  - tone
+  - layout variant
+  - page blocks
+  - interaction ideas
+  - preview-safe design brief
 - Filter lineage so generated claims can cite only source IDs/chunk hashes that exist in the tenant corpus.
 - Fall back to deterministic extractive claims if Gemini is unavailable.
 
@@ -209,12 +223,15 @@ Tasks:
 - Write generated private claims under `tenants/{tenantId}/claims`.
 - Materialize public data only when the owner runs with `--publish`.
 - Continue using the public profile repository for `/p/[slug]`.
+- Publish an approved profile experience version, not just raw profile text.
+- Keep arbitrary AI-generated HTML in sandboxed preview mode unless it is transformed into an approved renderer schema.
 - Keep public fit advisor constrained to materialized public profile data.
 
 Acceptance criteria:
 
 - Draft synthesis does not overwrite the public profile.
 - Published synthesis replaces public sections/claims through a controlled writer.
+- Published profile experience uses approved public data and a deterministic renderer.
 - Anonymous clients cannot write public profile records.
 - Public profile documents do not contain raw source paths or private chunks.
 
@@ -225,6 +242,7 @@ Tasks:
 - Unit test document classification.
 - Unit test chunking and content hashes.
 - Unit test generated profile materialization.
+- Unit test generated profile experience schema and renderer allow-list behavior.
 - Keep existing Firestore rules tests.
 - Keep existing Playwright public profile smoke tests.
 - Add prompt/synthesis evals for:
@@ -238,6 +256,7 @@ Acceptance criteria:
 - Build fails if generated public claims can include private-only fields.
 - Build fails if Firestore rules allow anonymous private reads or public writes.
 - Build fails if synthesis materialization publishes claims without public allow-listing.
+- Build fails if generated public page blocks reference private source paths, private chunks, or unapproved data.
 
 ## Current Known Limitations
 

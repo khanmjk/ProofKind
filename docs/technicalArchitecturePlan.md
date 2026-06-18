@@ -2,7 +2,7 @@
 
 Status: locked v1 stack  
 Date: 2026-06-16  
-Related: [Product Vision](./productVision.md), [Stack Diagram](./architectureStackDiagram.md), [Canonical Data Model](./canonicalDataModel.md), [Data Ingestion Architecture](./dataIngestionArchitecture.md), [Connector And Multi-Tenant Architecture](./connectorMultiTenantArchitecture.md), [Professional Memory And Coach](./professionalMemoryCoach.md)
+Related: [Product Vision](./productVision.md), [Stack Diagram](./architectureStackDiagram.md), [Canonical Data Model](./canonicalDataModel.md), [Data Ingestion Architecture](./dataIngestionArchitecture.md), [Connector And Multi-Tenant Architecture](./connectorMultiTenantArchitecture.md), [Professional Memory And Coach](./professionalMemoryCoach.md), [Owner Experience And Profile Generation](./ownerExperienceAndProfileGeneration.md)
 
 ## Executive Recommendation
 
@@ -31,9 +31,10 @@ The long-term product architecture remains:
 ```text
 private ingestion + owner synthesis
   -> draft evidence and claim graph
+  -> owner chat review and generated profile previews
   -> owner review and approval
   -> approved public corpus
-  -> public profile and visitor fit advisor
+  -> generated public profile experience and visitor fit advisor
 ```
 
 The build order has been updated on 2026-06-18: Phase 1 now proves the ingestion-to-profile-generation engine. The public profile and visitor fit advisor remain important, but they are downstream consumers of generated, evidence-backed profile material rather than the initial source of truth.
@@ -84,7 +85,7 @@ Every private experience is tenant-scoped. The founder MVP has one personal tena
 
 ### Owner Private Workbench
 
-The owner can ask questions across all of their own data:
+The owner private workbench is chat-first. The owner can ask questions across all of their own data and ask the AI to generate reviewable artifacts, including profile copy, design directions, and interactive profile previews:
 
 - private raw sources
 - public sources
@@ -108,12 +109,33 @@ This is where the owner can ask:
 - "Find artifacts that support my banking experience."
 - "Where does my corpus contradict itself?"
 - "Generate a CV draft for this role from approved and private evidence."
+- "Generate three interactive public profile concepts from my Drive and Blogger evidence."
+- "Make the profile feel more premium and less like a resume."
+- "Show me the generated page before publishing it."
 - "What do I know about workflow automation from previous work?"
 - "What patterns define my best work?"
 - "Prepare me for my performance review."
 - "Does this opportunity fit my working style and goals?"
 
 Owner answers may disclose private material to the owner, but they must clearly label sensitivity, source, confidence, and whether something is safe to publish.
+
+### Generated Profile Experience
+
+The public profile should be generated through an owner-approved profile experience, not a fixed template with generated text.
+
+The AI may generate interactive HTML previews for the owner in a sandboxed artifact pane. Published public profiles should use a constrained structured renderer or approved component schema so arbitrary model-generated code is not deployed directly.
+
+The generated experience should include:
+
+- structured profile content
+- approved public claims
+- design/tone/audience intent
+- page blocks
+- theme tokens
+- interaction definitions
+- public fit advisor placement
+
+Public profile blocks must read only materialized public profile data.
 
 ### Professional Memory And Coach
 
