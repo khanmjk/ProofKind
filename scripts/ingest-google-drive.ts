@@ -2,8 +2,11 @@ import { stableDocId } from "@/lib/common/hash";
 import { DriveApiClient } from "@/lib/connectors/google/driveClient";
 import { fetchAndParseDriveItem, inventoryDriveFolder } from "@/lib/connectors/google/driveConnector";
 import { getGoogleAccessToken, GOOGLE_DRIVE_READONLY_SCOPE } from "@/lib/connectors/google/oauth";
+import { loadLocalEnv } from "@/lib/env/loadLocalEnv";
 import { CorpusRepository } from "@/lib/repositories/corpusRepository";
 import type { SourceRoot } from "@/lib/types";
+
+loadLocalEnv();
 
 type Args = {
   folderId: string;
@@ -21,7 +24,7 @@ function argValue(name: string, fallback?: string) {
 }
 
 function parseArgs(): Args {
-  const folderId = argValue("--folder-id");
+  const folderId = argValue("--folder-id", process.env.PROOFKIND_DRIVE_FOLDER_ID);
 
   if (!folderId) {
     throw new Error("Missing required --folder-id. Drive ingestion requires an explicitly approved folder ID.");

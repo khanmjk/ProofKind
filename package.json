@@ -14,6 +14,7 @@
     "test:e2e": "playwright test",
     "google:auth-url": "tsx scripts/google-auth-url.ts",
     "google:exchange-code": "tsx scripts/google-exchange-code.ts",
+    "ingest:doctor": "tsx scripts/ingestion-doctor.ts",
     "ingest:local": "tsx scripts/ingest-local-corpus.ts",
     "ingest:drive": "tsx scripts/ingest-google-drive.ts",
     "ingest:blogger": "tsx scripts/ingest-blogger-feed.ts",

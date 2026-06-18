@@ -6,9 +6,12 @@ import {
   parseBloggerFeedPayload,
   type BloggerPost
 } from "@/lib/connectors/blogger/bloggerFeedClient";
+import { loadLocalEnv } from "@/lib/env/loadLocalEnv";
 import { buildParsedSourceRecords } from "@/lib/ingestion/sourceRecordBuilder";
 import { CorpusRepository } from "@/lib/repositories/corpusRepository";
 import type { SourceRoot } from "@/lib/types";
+
+loadLocalEnv();
 
 type Args = {
   blogUrl: string;
@@ -26,7 +29,7 @@ function argValue(name: string, fallback?: string) {
 }
 
 function parseArgs(): Args {
-  const blogUrl = argValue("--blog-url");
+  const blogUrl = argValue("--blog-url", process.env.PROOFKIND_BLOGGER_URL);
   const feedFile = argValue("--feed-file");
 
   if (!blogUrl && !feedFile) {

@@ -1,8 +1,11 @@
+import { loadLocalEnv } from "@/lib/env/loadLocalEnv";
 import {
   exchangeGoogleAuthCode,
   getGoogleOAuthConfigFromEnv,
   writeGoogleTokenFile
 } from "@/lib/connectors/google/oauth";
+
+loadLocalEnv();
 
 function argValue(name: string) {
   const index = process.argv.indexOf(name);

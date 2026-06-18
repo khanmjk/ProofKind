@@ -1,9 +1,12 @@
+import { loadLocalEnv } from "@/lib/env/loadLocalEnv";
 import { CorpusRepository } from "@/lib/repositories/corpusRepository";
 import {
   generateProfileFromCorpus,
   materializeGeneratedProfile,
   PROFILE_SYNTHESIS_PROMPT_VERSION
 } from "@/lib/profile/profileGenerator";
+
+loadLocalEnv();
 
 type Args = {
   tenant: string;
