@@ -26,6 +26,18 @@ Run the app:
 npm run dev
 ```
 
+Owner studio:
+
+```text
+http://localhost:3000/owner
+```
+
+Public profile output:
+
+```text
+http://localhost:3000/p/mjk
+```
+
 Ingest an approved local or mounted Google Drive folder:
 
 ```bash
