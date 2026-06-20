@@ -17,11 +17,15 @@ The v1 goal is your own profile: help recruiters, hiring managers, clients, foun
 
 - **Owner agent:** runs the setup conversationally from start to finish: source discovery, source map confirmation, ingestion progress, synthesis, gap interview, profile generation, approval, and publishing.
 - **Chat-first identity studio:** the owner experience is a conversation-led workspace with generated artifacts beside the chat. The AI and owner co-create the profile, including copy, structure, visual direction, and interactive page previews.
+- **Professional knowledge base first:** ProofKind's core asset is not the public page. The core asset is a finely tuned, private, tenant-scoped knowledge base of the person. Sources are classified, tagged, chunked, connected into entities and relationships, and continuously refreshed before they are used to generate public profile material.
 - **AI-led discovery:** user provides access and starting points such as Drive folders, LinkedIn export, GitHub, YouTube, Blogger, and work samples; the AI inventories sources, extracts companies/products/projects from the corpus, researches public context, and asks for confirmation.
-- **Evidence model:** the AI creates reviewable entities and relationships such as sources, roles, companies, products, projects, artifacts, skills, themes, outcomes, claims, and narratives.
+- **Evidence and relationship model:** the AI creates reviewable entities and relationships such as sources, source families, roles, companies, products, projects, artifacts, skills, themes, psychometric patterns, outcomes, claims, and narratives.
+- **Intelligent classification:** CVs/resumes are tagged as targeted career documents, psychometric reports as sensitive operating-style evidence, Blogger posts as public writing with inferred themes, and work outputs as private proof assets until approved.
+- **Public context enrichment:** when company, product, role, or domain entities are extracted, the AI should research public sources such as company websites and articles to enrich the private graph, with owner review before anything public changes.
 - **Gap-driven interview:** the AI asks targeted questions only where the corpus lacks context, contains ambiguity, or needs lived experience: motivations, judgment calls, impact, lessons, leadership, conflict, and personal operating style.
 - **AI-led positioning:** the AI infers themes and market positioning heavily, then asks the owner to approve, correct, or enrich them.
 - **Approval-gated publishing:** every public claim, theme, artifact, private-supported label, and visitor-answer policy must be approved before use.
+- **Targeted profile generation:** the owner can provide a job spec, advert, opportunity brief, client problem, or audience target. ProofKind maps the target to evidence and generates a public profile experience aligned to that target, including gaps that need owner context.
 - **Generated profile experiences:** ProofKind should generate sample public profile UIs and interactive previews for the owner to review. Once approved, the public profile is published through a controlled renderer using approved public data.
 - **Owner private workbench:** the authenticated owner can chat with AI across their full corpus, including private sources, public sources, draft claims, approved claims, rejected claims, source metadata, and interview answers.
 - **Living knowledge base:** connected sources refresh over time, changed data creates draft updates, and public profile changes remain approval-gated.
@@ -33,9 +37,11 @@ The v1 goal is your own profile: help recruiters, hiring managers, clients, foun
 ## Public Profile
 
 - Visitors can browse an owner-approved generated profile experience with narrative, themes, work evidence, capabilities, selected artifacts, credibility signals, and interaction design shaped by the AI/owner collaboration.
-- Visitors can start an anonymous fit session by describing their role, project, company, or problem.
-- The public AI acts as a **candid fit advisor**: strong fit, partial fit, unclear fit, or likely mismatch.
+- Visitors can ask broad public-profile questions such as "Who is Muhammad?", "Where has he worked?", "What is his leadership style?", "What does he know about AI?", "Is he well recommended?", and "Show me professional work."
+- Visitors can also start an anonymous fit session by describing their role, project, company, or problem.
+- The public AI acts as a **public profile assistant** and a candid fit advisor when the visitor asks about fit.
 - The public AI can use only owner-approved public claims, approved public profile sections, approved artifact summaries, and approved private-supported statements.
+- If recommendations, work samples, employer timelines, or leadership-style claims have not been approved into the public profile, the public AI must say that rather than infer from private data.
 - Private-work-backed claims appear as owner-approved, private-supported claims, not exposed source material.
 - Primary CTA: book a conversation.
 - Secondary validation CTA: "I'd like a profile like this" plus feedback capture.

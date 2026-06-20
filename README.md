@@ -10,10 +10,12 @@ Phase 1 now proves the ingestion-to-profile-generation engine:
 approved source folder
   -> parse/classify/chunk
   -> tenant-scoped private corpus
+  -> knowledge graph and dynamic tags
   -> AI profile synthesis
+  -> target-profile alignment
   -> generated claims with lineage
   -> owner-triggered public materialization
-  -> public profile and fit advisor
+  -> public profile and profile assistant
 ```
 
 The previous hand-curated seed path has been removed from product code. Public profile data should be generated from ingested source material and materialized through the controlled writer.
@@ -100,6 +102,6 @@ npm run test:e2e
 - Ingest only explicitly approved source roots.
 - Private source records stay under `tenants/{tenantId}/**`.
 - Public profile data is materialized separately under `publicProfiles/{slug}/**`.
-- The public fit advisor can use only materialized public claims and sections.
+- The public profile assistant can use only materialized public claims, sections, and public-safe artifact summaries.
 - Google Drive and Blogger ingestion require explicit `--folder-id` or `--blog-url`; do not run those commands until the owner approves the source.
 - Google Drive Desktop `.gdoc`, `.gsheet`, and `.gslides` files are pointers; full content is handled by the Drive API export connector.

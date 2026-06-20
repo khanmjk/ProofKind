@@ -62,12 +62,14 @@ tenants/{tenantId}/sourceItems/{sourceItemId}
 tenants/{tenantId}/sourceVersions/{sourceVersionId}
 tenants/{tenantId}/sourceArtifacts/{artifactId}
 tenants/{tenantId}/sourceChunks/{chunkId}
+tenants/{tenantId}/knowledgeTags/{tagId}
 tenants/{tenantId}/entities/{entityId}
 tenants/{tenantId}/entityAliases/{aliasId}
 tenants/{tenantId}/relationships/{relationshipId}
 tenants/{tenantId}/timelineEvents/{timelineEventId}
 tenants/{tenantId}/claims/{claimId}
 tenants/{tenantId}/claimEvidence/{claimEvidenceId}
+tenants/{tenantId}/targetProfileDrafts/{draftId}
 tenants/{tenantId}/interviewAnswers/{answerId}
 tenants/{tenantId}/psychometricAssessments/{assessmentId}
 tenants/{tenantId}/webResearchCandidates/{candidateId}
@@ -111,6 +113,7 @@ publicProfiles/{slug}/publicClaims/{publicClaimId}
 publicProfiles/{slug}/publicArtifactSummaries/{artifactId}
 publicProfiles/{slug}/publicSections/{sectionId}
 publicProfiles/{slug}/publicFitSessions/{sessionId}
+publicProfiles/{slug}/publicProfileChats/{sessionId}
 ```
 
 Use distinct public collection IDs such as `publicClaims`, not the same `claims` collection ID, to reduce accidental collection-group rule/query overlap.
@@ -256,6 +259,30 @@ tenants/{tenantId}/sourceChunks/{chunkId}
   embeddingNormalized
   embeddingVersion
 ```
+
+## Knowledge Tag
+
+Represents dynamic tags inferred from source content. Tags are reviewable knowledge-base objects, not hard-coded taxonomy values.
+
+```text
+tenants/{tenantId}/knowledgeTags/{tagId}
+  schemaVersion
+  tenantId
+  label
+  tagType: capability | domain | theme | operating_style | artifact_type | company_context | product_context | audience | risk
+  description
+  confidence
+  status: draft | reviewed | rejected | archived
+  sourceVersionIds
+  chunkContentHashes
+  relatedEntityIds
+  relatedClaimIds
+  createdByAgentRunId
+  createdAt
+  updatedAt
+```
+
+Tags can inform public profile generation only after they are connected to approved claims, approved sections, or public-safe artifact summaries.
 
 ## Entity
 
@@ -405,6 +432,36 @@ tenants/{tenantId}/interviewAnswers/{answerId}
   createdByUid
   createdAt
 ```
+
+## Target Profile Draft
+
+Represents a private target-specific profile generation run, usually driven by a job spec, advert, opportunity brief, or target audience.
+
+```text
+tenants/{tenantId}/targetProfileDrafts/{draftId}
+  schemaVersion
+  tenantId
+  targetType: job_spec | advert | opportunity_brief | audience | custom
+  targetTitle
+  targetTextHash
+  targetTextStoragePath
+  audience
+  generatedPositioning
+  matchedClaimIds
+  matchedEntityIds
+  matchedRelationshipIds
+  gapQuestions
+  proposedPublicSectionIds
+  proposedPublicClaimIds
+  profileExperienceDraftId
+  approvalStatus: draft | needs_context | approved | rejected | archived
+  publishState
+  createdByAgentRunId
+  createdAt
+  updatedAt
+```
+
+Target drafts are private by default. Public pages can be generated from them only through the same allow-list materialization path as any other public profile content.
 
 ## Public Claim
 

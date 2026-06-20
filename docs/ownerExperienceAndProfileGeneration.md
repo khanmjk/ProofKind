@@ -24,7 +24,9 @@ The target interaction pattern is closer to modern frontier AI workspaces such a
 ```text
 owner chat
   -> source connection and evidence review
-  -> AI-generated profile strategy
+  -> AI-generated private knowledge graph
+  -> target/job-spec brief
+  -> AI-generated profile strategy and public Q&A scope
   -> AI-generated interactive profile previews
   -> owner feedback and iteration
   -> claim/design approval
@@ -32,6 +34,8 @@ owner chat
 ```
 
 The AI is not just writing text. It is helping design the public professional experience.
+
+The AI is also building the private professional memory. The public page is a generated output of that memory, not the source of truth.
 
 ## Owner Workspace Layout
 
@@ -49,13 +53,18 @@ The conversation is the primary control surface.
 The owner should be able to say things like:
 
 - "Connect my Drive folder and blog, then tell me what you found."
+- "Classify the CVs, psychometric reports, blog posts, and work samples separately."
+- "Show me the knowledge graph of companies, products, roles, projects, skills, and themes."
+- "Research the companies and products you found from public sources, then ask me what needs correction."
 - "Generate three profile directions: executive operator, AI product leader, and technical strategist."
+- "Here is a job spec. Generate a public page aimed at this opportunity."
 - "Make the public page feel more premium and less resume-like."
 - "Show me a version aimed at recruiters."
 - "Show me a version aimed at founders looking for an advisor."
 - "Use my blog posts more heavily."
 - "This claim is too broad. What evidence supports it?"
 - "Do not publish anything from psychometrics directly."
+- "What can a public visitor ask about me?"
 - "Create an interactive page I can review."
 - "Publish this version."
 
@@ -70,16 +79,24 @@ Artifact types:
 - source inventory
 - classification review
 - evidence map
+- knowledge graph
+- dynamic tag review
+- public web research queue for extracted companies/products
+- target/job-spec brief
+- target-to-evidence alignment
 - generated claims
 - missing-context interview
 - profile strategy brief
 - profile copy variants
 - interactive public profile preview
-- public fit advisor preview
+- public profile assistant preview
 - publication checklist
 
 The artifact pane should support tabs such as:
 
+- **Knowledge Base**
+- **Target Profile**
+- **Public Q&A**
 - **Preview**
 - **Claims**
 - **Evidence**
@@ -93,9 +110,10 @@ The public profile should not be a fixed template with generated text dropped in
 The generated profile can vary by:
 
 - audience: recruiter, founder, hiring manager, client, board/advisory lead
+- target: job spec, advert, opportunity brief, client problem, advisory mandate
 - tone: executive, product-led, technical, strategic, candid, editorial
 - structure: timeline, proof claims, case-study led, writing-led, strengths-led
-- interaction: fit advisor, evidence explorer, work-theme filters, selected artifact previews
+- interaction: public profile assistant, fit advisor, evidence explorer, work-theme filters, selected artifact previews
 
 The owner should be able to iterate conversationally:
 
@@ -142,12 +160,12 @@ The publish path should use one of these safer models:
 
 2. **Constrained Component DSL**
    - AI generates a limited page schema using approved blocks.
-   - Blocks include hero, claim grid, timeline, writing highlights, evidence explorer, fit advisor.
+   - Blocks include hero, claim grid, timeline, writing highlights, evidence explorer, and public profile assistant.
    - More flexible than templates but safer than arbitrary code.
 
 3. **Sandboxed Static Artifact**
    - AI-generated HTML is published as a sandboxed static artifact with strict CSP.
-   - No private data, no cookies, no dynamic backend calls except approved public fit endpoint.
+   - No private data, no cookies, no dynamic backend calls except the approved public profile assistant endpoint.
    - Later option, not the safest default.
 
 Recommendation: use **Structured Profile Renderer** for v1 publication, while allowing **sandboxed HTML previews** during owner iteration.
@@ -203,26 +221,34 @@ No public block can point to private source paths, private chunks, raw psychomet
 
 The owner workflow should be:
 
-1. **Generate**
+1. **Build Knowledge Base**
+   - AI classifies sources, extracts entities, generates dynamic tags, links relationships, and creates evidence-backed private claims.
+
+2. **Target**
+   - Owner supplies a job spec, advert, audience, or opportunity brief.
+   - AI maps target requirements to evidence, gaps, and generated positioning.
+
+3. **Generate**
    - AI creates profile content and one or more interactive profile previews.
 
-2. **Inspect**
-   - Owner can click claims, sections, and design blocks.
+4. **Inspect**
+   - Owner can click claims, sections, relationship nodes, target mappings, public Q&A examples, and design blocks.
    - The app shows why the AI generated them and what evidence supports them.
 
-3. **Refine**
+5. **Refine**
    - Owner gives conversational feedback.
    - AI revises copy, structure, tone, layout, and interactions.
 
-4. **Approve**
+6. **Approve**
    - Owner approves claims and public-safe sections.
+   - Owner approves public Q&A scope for recommendations, work samples, leadership style, timeline, and fit answers.
    - Owner approves a profile experience version.
 
-5. **Publish**
+7. **Publish**
    - App materializes only approved public profile data.
    - Public page uses the approved structured renderer output.
 
-6. **Monitor**
+8. **Monitor**
    - Future source changes create suggested updates, not silent public changes.
 
 ## Public Page Design Principles
@@ -280,9 +306,15 @@ Recommended first generated surfaces:
   - must be transformed into owner-approved public wording
 
 - **Fit Advisor**
+  - one mode of the broader public profile assistant
   - constrained to public profile data
   - cites public claims
   - refuses private/sensitive/employment-decision requests
+
+- **Public Profile Assistant**
+  - answers broad visitor questions such as "Who is Muhammad?", "Where has he worked?", "What is his leadership style?", "What does he know about AI?", "Is he well recommended?", and "Show me professional work"
+  - shows approved recommendations and work samples only after explicit owner approval
+  - states when a topic is not yet represented in public-approved data
 
 ## Build Implications
 
@@ -292,17 +324,23 @@ New implementation pieces required:
 
 - owner chat workspace
 - artifact pane
+- private knowledge graph and dynamic tag review
+- target/job-spec brief and target-to-evidence mapping
 - generated profile experience schema
 - interactive preview sandbox
 - approved component renderer
 - versioned profile drafts
 - design/publish approval flow
+- public profile assistant preview and answer policy review
 - generated profile evals for private leakage and unsupported claims
 
 Phase 1 can implement this incrementally:
 
 ```text
 chat-first owner shell
+  -> knowledge-base artifact
+  -> target-profile artifact
+  -> public Q&A artifact
   -> profile synthesis artifact
   -> generated design brief
   -> structured page blocks

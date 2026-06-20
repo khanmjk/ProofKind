@@ -5,7 +5,7 @@
 **ProofKind**  
 Your professional story, backed by proof.
 
-ProofKind turns your scattered career history, documents, blogs, projects, recommendations, and public footprint into a living AI-powered professional profile. Privately understand your own experience. Publicly share only the claims you approve.
+ProofKind turns your scattered career history, documents, blogs, projects, recommendations, and public footprint into a living AI-powered professional knowledge base and profile. Privately understand your own experience. Publicly share only the claims you approve.
 
 Long term, ProofKind is your private professional memory and AI coach: a place to understand your patterns, prepare for opportunities, track growth, and turn real work into public proof.
 
@@ -14,9 +14,9 @@ Long term, ProofKind is your private professional memory and AI coach: a place t
 Your CV says what you've done.  
 ProofKind shows why it matters.
 
-Build an AI-powered professional profile from your real body of work: documents, CVs, blogs, projects, recommendations, and public evidence.
+Build an AI-powered professional knowledge base and profile from your real body of work: documents, CVs, blogs, projects, recommendations, and public evidence.
 
-Privately ask questions across your career history. Prepare for reviews, interviews, promotions, and career decisions with an AI that understands your real professional memory. Publicly share an approved profile that helps people understand your fit before the first conversation.
+Privately ask questions across your career history. Prepare for reviews, interviews, promotions, and career decisions with an AI that understands your real professional memory. Generate targeted public pages for roles or opportunities. Publicly share an approved profile that lets visitors ask useful questions before the first conversation.
 
 **CTA:** Build Your ProofKind Profile  
 **Secondary CTA:** View Example Profile
@@ -27,7 +27,7 @@ Most professional profiles are manually written, quickly outdated, and light on 
 
 ProofKind builds a living professional identity from your actual evidence base. It connects to your documents, public work, writing, projects, and career history, then helps you extract claims, themes, timelines, strengths, and examples.
 
-You approve what becomes public. Visitors can explore your profile and ask whether you're a fit for their role, project, company, or problem.
+You approve what becomes public. Visitors can explore your profile, ask who you are, what you know, how you work, what evidence backs the claims, and whether you're a fit for their role, project, company, or problem.
 
 No more static CVs. No more generic summaries. Just a clearer, evidence-backed way to be understood.
 
@@ -71,7 +71,7 @@ Instead of asking users to manually write another static CV or profile page, Pro
 
 "Professionals are more than a job title and a list of employers," said the ProofKind founder. "Their best evidence is usually scattered across old CVs, project documents, presentations, blog posts, recommendations, and public product work. ProofKind helps people turn that evidence into a profile that is richer, more trustworthy, and easier to explore."
 
-Each ProofKind profile includes an approved public page and an AI-powered fit advisor. Visitors can ask whether the person is a good fit for a role, project, advisory need, or business problem. The public AI can only use owner-approved claims and public-safe summaries, while the private AI workbench and professional coach remain available only to the profile owner.
+Each ProofKind profile includes an approved public page and an AI-powered public profile assistant. Visitors can ask who the person is, what they know, where public evidence supports them, what approved recommendations or work samples exist, and whether the person is a good fit for a role, project, advisory need, or business problem. The public AI can only use owner-approved claims and public-safe summaries, while the private AI workbench and professional coach remain available only to the profile owner.
 
 "Before ProofKind, I had years of useful experience buried in files and old documents," said an early user. "Now I can ask my own career history questions privately, prepare for important career moments, and share a public profile that helps people understand my real strengths without sending another generic PDF."
 
@@ -81,4 +81,4 @@ ProofKind is available today for early access users.
 
 ## Boilerplate
 
-ProofKind is an AI-powered professional identity platform that helps people build evidence-backed profiles and private professional memory from their career data. The platform combines private career intelligence, AI-assisted professional coaching, claim-level approval, public professional profiles, and visitor fit analysis. ProofKind is designed around user control, source lineage, and public/private data separation.
+ProofKind is an AI-powered professional identity platform that helps people build evidence-backed profiles and private professional memory from their career data. The platform combines private career intelligence, AI-assisted professional coaching, target-profile generation, claim-level approval, public professional profiles, and public profile Q&A. ProofKind is designed around user control, source lineage, and public/private data separation.

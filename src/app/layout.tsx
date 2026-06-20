@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "ProofKind",
-  description: "AI-maintained professional proof with a candid public fit advisor."
+  description: "AI-maintained professional proof with a public profile assistant."
 };
 
 export default function RootLayout({

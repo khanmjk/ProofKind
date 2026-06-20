@@ -32,26 +32,26 @@ export function FitAdvisor({ slug }: FitAdvisorProps) {
       const payload = await response.json();
 
       if (!response.ok) {
-        throw new Error(payload.error ?? "Fit advisor is unavailable.");
+        throw new Error(payload.error ?? "Public profile assistant is unavailable.");
       }
 
       setResult(payload.result);
     } catch (caught) {
-      setError(caught instanceof Error ? caught.message : "Fit advisor is unavailable.");
+      setError(caught instanceof Error ? caught.message : "Public profile assistant is unavailable.");
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <aside className="advisor-panel" aria-label="Public fit advisor">
+    <aside className="advisor-panel" aria-label="Public profile assistant">
       <div className="advisor-header">
         <h2>
-          <Sparkles size={18} aria-hidden="true" /> Ask about fit
+          <Sparkles size={18} aria-hidden="true" /> Ask this profile
         </h2>
         <p>
-          Answers use only the approved public profile. Private sources, raw documents,
-          and employment decisions are out of scope.
+          Ask about experience, work themes, leadership style, AI, recommendations,
+          work samples, or role fit. Answers use approved public data only.
         </p>
       </div>
       <form className="fit-form" onSubmit={submitQuestion}>
@@ -61,15 +61,15 @@ export function FitAdvisor({ slug }: FitAdvisorProps) {
           onChange={(event) => setQuestion(event.target.value)}
           minLength={8}
           maxLength={900}
-          placeholder="Describe the role, project, problem, or collaboration you want to test."
+          placeholder="Ask who Muhammad is, where he has worked, what he knows about AI, or whether he fits a role."
           required
         />
         <button className="button primary" type="submit" disabled={loading || question.length < 8}>
           <Send size={16} aria-hidden="true" />
-          {loading ? "Checking" : "Check fit"}
+          {loading ? "Answering" : "Ask profile"}
         </button>
         <p className="privacy-note">
-          Fit questions are stored temporarily to operate and improve the service. Do
+          Public questions are stored temporarily to operate and improve the service. Do
           not submit sensitive personal data.
         </p>
       </form>
@@ -83,4 +83,3 @@ export function FitAdvisor({ slug }: FitAdvisorProps) {
     </aside>
   );
 }
-

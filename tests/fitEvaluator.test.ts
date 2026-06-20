@@ -24,6 +24,23 @@ describe("evaluateFitLocally", () => {
     expect(result.response).toContain("approved public profile");
   });
 
+  it("answers broad public profile questions from approved public data", () => {
+    const result = evaluateFitLocally("Who is Muhammad?", publicProfileFixture);
+
+    expect(result.fitCategory).toBe("unclear_fit");
+    expect(result.claimIdsUsed).toContain("claim-1");
+    expect(result.response).toContain("Muhammad Khan");
+    expect(result.response).toContain("AI product and architecture leader");
+  });
+
+  it("does not invent unapproved recommendations", () => {
+    const result = evaluateFitLocally("Show me recommendations for Muhammad.", publicProfileFixture);
+
+    expect(result.fitCategory).toBe("unclear_fit");
+    expect(result.claimIdsUsed).toEqual([]);
+    expect(result.response).toContain("No recommendations or testimonials");
+  });
+
   it("does not invent when evidence is unclear", () => {
     const result = evaluateFitLocally(
       "Is Muhammad a specialist in marine biology field research?",

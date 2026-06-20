@@ -34,22 +34,22 @@ private ingestion + owner synthesis
   -> owner chat review and generated profile previews
   -> owner review and approval
   -> approved public corpus
-  -> generated public profile experience and visitor fit advisor
+  -> generated public profile experience and public profile assistant
 ```
 
-The build order has been updated on 2026-06-18: Phase 1 now proves the ingestion-to-profile-generation engine. The public profile and visitor fit advisor remain important, but they are downstream consumers of generated, evidence-backed profile material rather than the initial source of truth.
+The build order has been updated on 2026-06-18: Phase 1 now proves the ingestion-to-profile-generation engine. The public profile and public profile assistant remain important, but they are downstream consumers of generated, evidence-backed profile material rather than the initial source of truth.
 
 ## Locked Stack
 
 | Layer | Decision | Purpose |
 |---|---|---|
-| Web app | Next.js | Owner workspace, approval UI, public profile, visitor fit chat |
+| Web app | Next.js | Owner workspace, approval UI, public profile, public profile chat |
 | Hosting | Firebase App Hosting | Full-stack Next.js deployment on Google-managed infrastructure |
 | Authentication | Firebase Authentication | Owner login and future beta user accounts |
 | Database | Cloud Firestore | Sources, chunks, claims, approvals, profiles, fit sessions, agent runs |
 | File storage | Cloud Storage for Firebase | Uploaded CVs, documents, exports, samples, generated artifacts |
 | Agent runtime | Genkit | Agentic flows, tools, schemas, local debugging, server-side AI calls |
-| AI model | Gemini API | Chat, extraction, synthesis, embeddings, fit analysis |
+| AI model | Gemini API | Chat, extraction, synthesis, embeddings, public profile Q&A, fit analysis |
 | Retrieval | Firestore Vector Search | Owner private search and approved public search |
 | Task workers | Cloud Run Services | HTTP task handlers invoked by Cloud Tasks for per-file/per-source work |
 | Bulk backfills | Cloud Run Jobs | Long-running batch backfills and controlled reprocessing |
@@ -96,7 +96,7 @@ The owner private workbench is chat-first. The owner can ask questions across al
 - source metadata
 - owner interview answers
 - generated profile sections
-- visitor questions and fit-session analytics
+- visitor questions and public-profile chat analytics
 - journals and reflection notes
 - performance reviews and feedback reports
 - goals, development plans, and decision journals
@@ -133,7 +133,7 @@ The generated experience should include:
 - page blocks
 - theme tokens
 - interaction definitions
-- public fit advisor placement
+- public profile assistant placement
 
 Public profile blocks must read only materialized public profile data.
 
@@ -193,7 +193,7 @@ Rules:
 - Public profile text must be hand-authored, owner-authored, or generated from already approved public evidence only.
 - A model that has seen psychometrics, journals, private feedback, client-sensitive work, rejected claims, or raw private chunks must not directly author final public text.
 - `private_supported` wording requires higher scrutiny because even generalized wording can leak private specifics.
-- Public profile generation and public fit chat must use separate prompts and server endpoints from owner-private flows.
+- Public profile generation and public profile chat must use separate prompts and server endpoints from owner-private flows.
 
 ## Tenant Enforcement
 
@@ -254,7 +254,7 @@ flowchart TD
   PublicVectors["Public Firestore vector index"]
   Profile["Public profile"]
   Visitor["Anonymous visitor"]
-  FitChat["Visitor fit advisor"]
+  FitChat["Public profile assistant"]
 
   Owner --> OwnerChat
   OwnerChat --> Genkit
@@ -375,9 +375,9 @@ Asks targeted questions when the corpus lacks context, contains ambiguity, or ne
 
 Turns draft claims into review cards and suggests safe public wording.
 
-### Public Fit Flow
+### Public Profile Assistant Flow
 
-Answers visitor questions using only approved public material and returns:
+Answers visitor questions using only approved public material. When the visitor asks about fit, it returns:
 
 - strong fit
 - partial fit
@@ -405,7 +405,7 @@ Required rules:
 - Authenticated owners can read/write only tenant workspaces where they are members.
 - Anonymous visitors can read only published public profile documents.
 - Anonymous visitors cannot read private owner workspace documents.
-- Public fit chat must call a server-side Genkit flow that retrieves only from `publicProfiles/{slug}`.
+- Public profile chat must call a server-side Genkit flow that retrieves only from `publicProfiles/{slug}`.
 - Client-side code must not receive private retrieval credentials.
 - API keys live in Secret Manager, not in browser code.
 - App Check should protect callable endpoints where practical.
@@ -423,7 +423,7 @@ Keep the initial budget near `$20-$30/month` by enforcing:
 - Gemini Pro-class model only for final synthesis or difficult reasoning.
 - Cache parsed chunks and embeddings; never reprocess unchanged files.
 - Store source hashes and parser versions.
-- Limit public visitor fit chats per IP/session.
+- Limit public visitor profile chats per IP/session.
 - Avoid Vertex AI Vector Search until Firestore Vector Search is insufficient.
 - Avoid paid parsing services until open-source parsing fails.
 
@@ -464,7 +464,7 @@ Keep the initial budget near `$20-$30/month` by enforcing:
 - owner-triggered public materialization into `publicProfiles/{slug}`
 - public allow-list serializer
 - public profile page
-- visitor fit advisor over materialized public claims only
+- public profile assistant over materialized public profile data only
 - public/private retrieval boundary tests
 - private-vs-public leak eval
 - spend cap and public endpoint kill switch

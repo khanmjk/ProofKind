@@ -24,10 +24,12 @@ The founder's priority is now explicit:
 approved data sources
   -> ingestion
   -> parsing/classification/chunking
+  -> knowledge graph, dynamic tags, and relationship network
   -> AI synthesis
-  -> evidence-backed generated profile
+  -> target/job-spec alignment
+  -> evidence-backed generated profile and public Q&A policy
   -> owner publish/review boundary
-  -> public ProofKind profile and fit advisor
+  -> public ProofKind profile and profile assistant
 ```
 
 The goal is not primarily to test market fit in Phase 1. The goal is to prove that ProofKind can maintain a professional profile from real source evidence across multiple data streams.
@@ -43,13 +45,19 @@ The MVP must demonstrate:
 - ingestion of owner-approved Blogger feeds
 - parsing of common document formats
 - classification of source type, sensitivity, and public-use risk
+- intelligent document family handling, including CV/resume history, psychometric reports, blog content, work samples, and public footprint data
 - chunking and lineage preservation
+- extraction of entities and relationships across roles, companies, products, projects, skills, themes, artifacts, outcomes, and claims
+- dynamic tagging inferred from content rather than only fixed taxonomies
+- public research queues for extracted companies, products, and market context
 - AI generation of profile sections and public-safe claims
+- job-spec or advert driven target-profile generation
 - AI generation of interactive profile concepts and structured public page designs
+- public visitor Q&A coverage for broad profile questions, not only role fit
 - generated claims linked back to source versions/chunks
 - owner-triggered publication into a separate public profile surface
 - owner approval of the generated profile experience before publication
-- public fit advisor constrained to materialized public claims only
+- public profile assistant constrained to materialized public claims, sections, and artifact summaries only
 
 Manual content seeds are acceptable only as test fixtures. They are not the Phase 1 product path.
 
@@ -76,15 +84,22 @@ Phase 1 is complete when:
 - An approved Blogger blog URL can be ingested through the public Blogger JSON feed.
 - Supported files create `sourceItems`, `sourceVersions`, and `sourceChunks` under the tenant.
 - Source records include parser, content hash, document family, sensitivity, visibility, and lineage metadata.
+- CVs/resumes are classified as targeted career documents and used carefully as timeline/evidence signals, not treated as fully objective career truth.
+- Psychometric reports are classified as sensitive private operating-style evidence by default.
+- Blogger posts are classified and dynamically tagged from content, labels, dates, and extracted themes.
+- Work samples are classified as private proof assets until public-safe summaries are approved.
+- Extracted companies, products, roles, projects, skills, and themes are stored as reviewable entities and relationships.
 - Google Workspace pointer files are detected and recorded, with a clear note that full content requires Drive API export.
 - The profile generator reads tenant chunks and produces profile sections plus evidence-backed claims.
+- The target-profile generator accepts a job spec or advert and maps requirements to evidence, gaps, and generated profile direction.
 - The owner workspace supports chat-first iteration over generated profile content and design artifacts.
 - Generated profile previews can be reviewed before publication.
+- Public visitor question examples can be previewed, including overview, work history, leadership style, AI capability, recommendations, work samples, and fit.
 - Generated claims include source version IDs and chunk content hashes where available.
 - Generated private claims are stored under `tenants/{tenantId}/claims`.
 - A user-triggered publish command materializes generated profile data into `publicProfiles/{slug}`.
 - `/p/{slug}` renders the generated profile.
-- The public fit advisor uses only materialized public profile data.
+- The public profile assistant uses only materialized public profile data.
 - Firestore rules still deny anonymous private reads and anonymous writes.
 - Unit tests cover parser/chunker/classifier/synthesis safety behavior.
 
@@ -101,7 +116,7 @@ Phase 1 is complete when:
 | Public profile | Existing `/p/[slug]` route over `publicProfiles/{slug}` |
 | Owner UX direction | Chat-first workspace with generated artifacts and interactive profile previews |
 | Public page generation | Structured renderer for approved profile experience; sandboxed HTML preview for iteration |
-| Fit advisor | Existing public-only fit advisor over approved public claims |
+| Public profile assistant | Existing public-only answer endpoint broadened beyond fit while staying on approved public data |
 | Tests | Vitest, Firestore emulator rules tests, Playwright smoke tests |
 | Hosting target | Firebase App Hosting once billing is linked |
 
@@ -129,14 +144,16 @@ npm run ingest:blogger -- --blog-url <approved-blogger-url>
 
 npm run synthesize:profile -- --tenant founder-mjk --slug mjk
   -> read tenant source chunks
+  -> extract entities, dynamic tags, and relationship candidates
   -> generate profile candidate with Gemini or deterministic fallback
+  -> optionally apply target/job-spec brief
   -> write private generated claims
   -> keep public profile untouched
 
 npm run synthesize:profile -- --tenant founder-mjk --slug mjk --publish
   -> write private generated claims
   -> materialize public profile/sections/claims
-  -> enable /p/mjk
+  -> enable /p/mjk public profile assistant
 ```
 
 ## Implementation Order
@@ -178,6 +195,22 @@ Tasks:
   - work sample/client document
   - general document
 - Classify sensitivity and default visibility.
+- Extract candidate entities:
+  - people
+  - companies
+  - products
+  - roles
+  - projects
+  - skills
+  - themes
+  - artifacts
+- Extract candidate relationships:
+  - person worked at company
+  - person worked on product/project
+  - source supports claim
+  - blog post expresses theme
+  - psychometric report informs operating-style theme
+  - public research supports company/product context
 
 Acceptance criteria:
 
@@ -185,6 +218,7 @@ Acceptance criteria:
 - Empty or unsupported content is recorded as skipped/failed, not silently ignored.
 - Psychometrics and journals default private/sensitive.
 - CVs and public footprint documents can become public candidates but still require materialization.
+- Dynamic tags and relationships are stored under the tenant and require review before public use.
 
 ### 3. Profile Synthesis
 
@@ -198,7 +232,11 @@ Tasks:
   - summary
   - public profile sections
   - evidence-backed claims
+  - dynamic profile themes
+  - relationship-backed narrative paths
+  - public visitor answer policy
   - missing-context questions
+- Accept an optional target brief from a job spec, advert, or opportunity description.
 - Generate profile experience options:
   - audience
   - tone
@@ -206,6 +244,11 @@ Tasks:
   - page blocks
   - interaction ideas
   - preview-safe design brief
+- Generate target alignment:
+  - matched requirements
+  - supporting claims/evidence
+  - gaps and owner interview questions
+  - proposed public page emphasis
 - Filter lineage so generated claims can cite only source IDs/chunk hashes that exist in the tenant corpus.
 - Fall back to deterministic extractive claims if Gemini is unavailable.
 
@@ -215,6 +258,7 @@ Acceptance criteria:
 - Gemini output cannot invent source IDs that survive filtering.
 - Generated public-safe claims never expose raw sensitive details by design.
 - Weak evidence remains modestly worded.
+- Target-specific profile pages do not overstate fit when evidence is weak or missing.
 
 ### 4. Materialization And Public Read Path
 
@@ -225,7 +269,7 @@ Tasks:
 - Continue using the public profile repository for `/p/[slug]`.
 - Publish an approved profile experience version, not just raw profile text.
 - Keep arbitrary AI-generated HTML in sandboxed preview mode unless it is transformed into an approved renderer schema.
-- Keep public fit advisor constrained to materialized public profile data.
+- Keep public profile assistant constrained to materialized public profile data.
 
 Acceptance criteria:
 
@@ -234,6 +278,7 @@ Acceptance criteria:
 - Published profile experience uses approved public data and a deterministic renderer.
 - Anonymous clients cannot write public profile records.
 - Public profile documents do not contain raw source paths or private chunks.
+- Public visitor answers can cover overview, work history, leadership style, AI capability, recommendations, work samples, and fit only to the extent those topics are represented in approved public data.
 
 ### 5. Tests And Evals
 
@@ -250,6 +295,9 @@ Tasks:
   - unsupported claims
   - missing lineage
   - psychometric raw-score leakage
+  - invented employer/product history
+  - target-profile overclaiming against a job spec
+  - public Q&A answers that cite private-only evidence
 
 Acceptance criteria:
 
@@ -271,6 +319,7 @@ Acceptance criteria:
 
 - The approved Google Drive folder path or Drive folder ID to ingest first.
 - The approved Blogger blog URL to ingest first.
+- The first job spec or opportunity brief to use as the target-profile test.
 - Whether generated output may be published automatically for local MVP testing with `--publish`, or should remain draft until inspected.
 - Gemini API key placement in `.env.local` when ready.
 - Booking URL and interest-capture URL for the public page.
@@ -285,7 +334,7 @@ Please review the updated ProofKind Phase 1 build plan.
 Context:
 - ProofKind is an AI-led professional memory and profile platform.
 - The founder has rejected the previous hand-curated public-profile-first MVP.
-- The new Phase 1 goal is to prove ingestion-to-profile-generation: approved source folders -> parsing/classification/chunking -> AI synthesis -> generated private claims -> owner-triggered public materialization -> public profile and fit advisor.
+- The new Phase 1 goal is to prove ingestion-to-profile-generation: approved source folders -> parsing/classification/chunking -> knowledge graph and dynamic tags -> target-profile alignment -> AI synthesis -> generated private claims -> owner-triggered public materialization -> public profile and profile assistant.
 - Multi-tenancy and public/private separation must remain from day one.
 - The first ingestion paths are local/mounted folder ingestion, selected-root Google Drive API export, and Blogger feed ingestion.
 - Drive API ingestion requires an explicit folder ID and must not perform broad account-wide sync.

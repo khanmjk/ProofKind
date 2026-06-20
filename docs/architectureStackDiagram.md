@@ -12,7 +12,7 @@ flowchart TB
     OwnerSetup["Owner conversational setup"]
     ApprovalUI["Claim approval workspace"]
     PublicProfile["Public profile page"]
-    FitChat["Visitor fit advisor chat"]
+    FitChat["Public profile assistant chat"]
   end
 
   subgraph FirebaseApp["Firebase application layer"]
@@ -35,7 +35,7 @@ flowchart TB
     WebResearchFlow["Company and product web research flow"]
     GapFlow["Gap interview flow"]
     ApprovalFlow["Approval flow"]
-    FitFlow["Public fit flow"]
+    FitFlow["Public profile assistant flow"]
   end
 
   subgraph ConnectorRuntime["Connector runtime layer"]

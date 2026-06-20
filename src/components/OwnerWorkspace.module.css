@@ -87,7 +87,7 @@
 
 .metricGrid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 8px;
   padding: 14px 18px 0;
 }
@@ -309,8 +309,12 @@
 }
 
 .mockPanel h4,
+.knowledgePanel h3,
+.nodeCard h4,
+.alignmentItem h4,
 .claimReview h3,
-.sourceRow h3 {
+.sourceRow h3,
+.questionRow h3 {
   margin: 0;
   font-size: 0.95rem;
 }
@@ -325,6 +329,13 @@
 .themeTile,
 .claimReview,
 .sourceRow,
+.knowledgePanel,
+.nodeCard,
+.edgeItem,
+.alignmentItem,
+.jobSpecBox,
+.sectionPlan,
+.questionRow,
 .designBlock,
 .publishItem {
   border: 1px solid #d7dfdc;
@@ -343,6 +354,10 @@
 }
 
 .themeTile span,
+.nodeCard p,
+.edgeItem p,
+.alignmentItem p,
+.questionRow p,
 .claimReview p,
 .sourceRow p,
 .designBlock p,
@@ -358,6 +373,154 @@
   display: grid;
   gap: 12px;
   padding: 18px;
+}
+
+.knowledgeLayout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(300px, 0.85fr);
+  gap: 14px;
+  padding: 18px;
+}
+
+.knowledgePanel {
+  display: grid;
+  gap: 14px;
+  align-content: start;
+  padding: 16px;
+}
+
+.panelHeading {
+  display: grid;
+  gap: 6px;
+}
+
+.panelHeading h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.panelHeading p {
+  margin: 0;
+  color: #5b6561;
+  line-height: 1.45;
+}
+
+.nodeStack,
+.edgeList,
+.alignmentList {
+  display: grid;
+  gap: 10px;
+}
+
+.nodeCard,
+.alignmentItem {
+  display: grid;
+  gap: 12px;
+  padding: 14px;
+}
+
+.nodeMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tagCloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tagPill,
+.answerMode {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 3px;
+  border: 1px solid #d7dfdc;
+  border-radius: 8px;
+  padding: 9px 10px;
+  background: #f7faf9;
+}
+
+.tagPill strong {
+  font-size: 0.85rem;
+}
+
+.tagPill small {
+  color: #5b6561;
+  font-size: 0.74rem;
+}
+
+.edgeItem {
+  display: grid;
+  gap: 6px;
+  padding: 12px;
+}
+
+.edgeItem span {
+  color: #245d8f;
+  font-size: 0.86rem;
+  font-weight: 720;
+}
+
+.targetLayout,
+.questionList {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+}
+
+.targetLayout {
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr);
+}
+
+.jobSpecBox,
+.sectionPlan {
+  display: grid;
+  gap: 14px;
+  align-content: start;
+  padding: 16px;
+}
+
+.mockTextarea {
+  min-height: 160px;
+  border: 1px solid #c8d2ce;
+  border-radius: 8px;
+  padding: 14px;
+  background: #fbfcfb;
+  color: #3f4845;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.alignmentItem {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.sectionPlan {
+  grid-column: 1 / -1;
+}
+
+.themeGridCompact {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.questionRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 14px;
+  padding: 16px;
+}
+
+.answerMode {
+  width: fit-content;
+  margin: 8px 0 0;
+  color: #073f3b;
+  font-size: 0.82rem;
+  font-weight: 720;
 }
 
 .claimReview {
@@ -424,6 +587,9 @@
   .appGrid,
   .mockHero,
   .themeGrid,
+  .themeGridCompact,
+  .knowledgeLayout,
+  .targetLayout,
   .designGrid {
     grid-template-columns: 1fr;
   }
@@ -438,7 +604,9 @@
   .artifactToolbar,
   .publishItem,
   .sourceRow,
-  .claimReview {
+  .claimReview,
+  .alignmentItem,
+  .questionRow {
     align-items: stretch;
     flex-direction: column;
     grid-template-columns: 1fr;

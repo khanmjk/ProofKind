@@ -54,7 +54,7 @@ export default async function PublicProfilePage({ params }: PublicProfilePagePro
           </nav>
           <section className="hero">
             <div>
-              <p className="eyebrow">Public proof profile</p>
+              <p className="eyebrow">Public proof profile with profile assistant</p>
               <h1>{profile.displayName}</h1>
               <p className="headline">{profile.headline}</p>
               <p className="headline">{profile.summary}</p>
@@ -99,7 +99,7 @@ export default async function PublicProfilePage({ params }: PublicProfilePagePro
           <div className="section-heading">
             <h2>Proof Claims</h2>
             <p>
-              Approved claims the fit advisor can cite when answering visitor questions.
+              Approved claims the public profile assistant can cite when answering visitor questions.
             </p>
           </div>
           <div className="claims-grid">
@@ -122,7 +122,7 @@ export default async function PublicProfilePage({ params }: PublicProfilePagePro
 
       <footer className="footer">
         <div className="shell">
-          Public fit answers are informational and limited to approved public profile
+          Public profile answers are informational and limited to approved public profile
           content. They are not hiring recommendations or employment decisions.
         </div>
       </footer>
